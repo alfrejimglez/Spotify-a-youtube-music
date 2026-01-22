@@ -5,6 +5,8 @@ Suite de scripts Python para importar canciones de Spotify a YouTube Music.
 ---
 
 📋EL CSV se puede generar de https://exportify.app/ 📋
+Las headers o manualmente (requests headers) o con extensiones como https://chromewebstore.google.com/detail/yt-music-header-exporter/khjdlndhcgibldagopmlbdbhjejinlpo
+
 
 
 ## 📋 Scripts incluidos
