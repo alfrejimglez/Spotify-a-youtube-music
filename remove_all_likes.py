@@ -52,23 +52,31 @@ def main():
     print('📥 Obteniendo todas las canciones de "Música que me gusta"...')
     try:
         all_songs = []
-        continuation = None
         page = 1
         
-        # Primera página
-        liked_songs = yt.get_liked_songs(limit=1000)
-        all_songs.extend(liked_songs.get('tracks', []))
-        continuation = liked_songs.get('continuations')
-        
-        # Obtener todas las páginas siguientes
-        while continuation:
-            print(f'   📄 Página {page}: {len(all_songs)} canciones obtenidas...')
-            page += 1
+        # Obtener canciones en bloques de 500
+        while True:
+            offset = (page - 1) * 500
+            print(f'   📄 Página {page}: obteniendo canciones ({offset}-{offset+500})...')
             try:
-                result = yt.get_liked_songs(limit=1000, continuations=continuation)
-                all_songs.extend(result.get('tracks', []))
-                continuation = result.get('continuations')
-            except:
+                liked_songs = yt.get_liked_songs(limit=500)
+                tracks = liked_songs.get('tracks', [])
+                
+                if not tracks:
+                    break
+                    
+                all_songs.extend(tracks)
+                
+                # Si no hay continuations, paramos
+                if 'continuations' not in liked_songs:
+                    break
+                    
+                # Continuar con el siguiente lote
+                continuation = liked_songs.get('continuations')[0]
+                liked_songs = yt.get_liked_songs(limit=500, continuations=[continuation])
+                page += 1
+            except Exception as e:
+                print(f'   ⚠️  Error en página {page}: {e}')
                 break
         
         songs = all_songs
