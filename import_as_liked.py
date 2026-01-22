@@ -56,7 +56,7 @@ def rate_song_with_retry(yt, video_id):
 
 def main():
     csv_path = Path('1.csv')
-    headers_path = Path('ytmusic_legacy.json')
+    headers_path = Path('ytmusic_headers.json')
 
     if not csv_path.exists():
         print(f'❌ No se encontró {csv_path}')
@@ -68,7 +68,16 @@ def main():
 
     print('🔐 Autenticando con YouTube Music...')
     try:
-        yt = YTMusic(auth=str(headers_path))
+        # Cargar headers desde el JSON
+        with open(headers_path, 'r') as f:
+            auth_data = json.load(f)
+        
+        # Si es el nuevo formato, usar headers
+        if 'headers' in auth_data:
+            yt = YTMusic(auth=auth_data['headers'])
+        else:
+            # Si es formato antiguo, usar directamente
+            yt = YTMusic(auth=str(headers_path))
     except Exception as e:
         print(f'❌ Error: {e}')
         sys.exit(1)
