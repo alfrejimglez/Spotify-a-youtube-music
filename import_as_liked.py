@@ -75,6 +75,7 @@ def main():
 
     print('📖 Leyendo CSV de Spotify...')
     rows = read_spotify_csv(str(csv_path))
+    rows.reverse()  # Invertir orden para que las viejas queden primero
     print(f'📊 Total de canciones: {len(rows)}')
 
     liked_count = 0
