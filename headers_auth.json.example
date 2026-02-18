@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-02-18T00:00:00.000Z",
+  "version": "1.0",
+  "cookieSourceUrls": [
+    "https://music.youtube.com/"
+  ],
+  "headers": {
+    "Accept": "*/*",
+    "Authorization": "SAPISIDHASH YOUR_TIMESTAMP_YOUR_HASH_VALUE",
+    "Content-Type": "application/json",
+    "Cookie": "PREF=tz=YOUR_TIMEZONE; SAPISID=YOUR_SAPISID_VALUE",
+    "X-Goog-AuthUser": "0",
+    "x-origin": "https://music.youtube.com"
+  },
+  "cookies": []
+}
