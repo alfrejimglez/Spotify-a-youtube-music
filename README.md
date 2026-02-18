@@ -8,28 +8,47 @@ Las headers o manualmente (requests headers) o con extensiones como https://chro
 
 ## 📋 Scripts incluidos
 
-### 1. `import_final.py`
-Importa canciones desde un CSV de Spotify a una playlist personalizada en YouTube Music.
+### 1. `import_simple.py`
+Importa canciones desde un CSV de Spotify a una playlist concreta de YouTube Music.
 
 **Qué hace:**
 - Lee un CSV de Spotify con títulos y artistas
 - Busca cada canción en YouTube Music
-- Crea una playlist (o usa una existente) llamada "spotify"
+- Permite elegir playlist por URL, por ID o por nombre
+- Crea la playlist si no existe (cuando usas nombre)
 - Añade todas las canciones encontradas a esa playlist
 
 **Uso:**
 ```bash
-python import_final.py
+python import_simple.py --csv putos_remix.csv --auth ytmusic_headers.json --playlist-url "https://music.youtube.com/playlist?list=PLwMPz54iutsizG6ssq4kjvLRSYiWuaxhx"
 ```
 
+**Si lo ejecutas sin parámetros:**
+```bash
+python import_simple.py
+```
+El script usa estos valores por defecto:
+- `--csv ejemplo.csv`
+- `--auth ytmusic_headers.json`
+- `--playlist-name "Putos Remix"` (solo si no pasas `--playlist-url` ni `--playlist-id`)
+
+En ese modo, buscará `ejemplo.csv`; si no existe, terminará con error de archivo no encontrado.
+
+**Parámetros disponibles:**
+- `--csv` Ruta del CSV (por defecto: `ejemplo.csv`)
+- `--auth` Ruta del JSON de auth (`ytmusic_headers.json` o formato legacy)
+- `--playlist-url` URL completa de la playlist destino
+- `--playlist-id` ID de playlist destino (ej: `PL...`)
+- `--playlist-name` Nombre de playlist a buscar/crear (si no pasas URL/ID)
+
 **Requisitos previos:**
-- Archivo `1.csv` (exportado desde Spotify)
-- Archivo `ytmusic_legacy.json` (credenciales de YouTube Music)
+- Archivo CSV exportado desde Spotify (ej: `putos_remix.csv`)
+- Archivo `ytmusic_headers.json` (credenciales de YouTube Music)
 - Librería `ytmusicapi` instalada
 
 **Tiempo estimado:** 30-60 minutos (según número de canciones)
 
-**Resultado:** Playlist llamada "spotify" con las canciones importadas
+**Resultado:** Canciones añadidas a la playlist que indiques
 
 ---
 
@@ -96,7 +115,7 @@ python import_as_liked.py
 python -m pip install ytmusicapi requests
 ```
 
-### 2. Obtener credenciales (`ytmusic_legacy.json`)
+### 2. Obtener credenciales (`ytmusic_headers.json`)
 
 **Opción A: Desde `headers_auth.json` (recomendado)**
 
@@ -104,30 +123,7 @@ python -m pip install ytmusicapi requests
 2. Abre https://music.youtube.com
 3. Haz clic en la extensión y descarga `headers_auth.json`
 4. Coloca el archivo en la carpeta de scripts
-5. Ejecuta este comando Python para convertirlo:
-
-```python
-import json
-from pathlib import Path
-
-with open('headers_auth.json') as f:
-    data = json.load(f)
-
-legacy = {
-    'Accept': '*/*',
-    'Authorization': data['headers'].get('Authorization', ''),
-    'Content-Type': 'application/json',
-    'Cookie': data['headers'].get('Cookie', ''),
-    'User-Agent': 'Mozilla/5.0',
-    'X-Goog-AuthUser': '0',
-    'x-origin': 'https://music.youtube.com'
-}
-
-with open('ytmusic_legacy.json', 'w') as f:
-    json.dump(legacy, f, indent=2)
-
-print('✓ ytmusic_legacy.json creado')
-```
+5. Guárdalo como `ytmusic_headers.json` en la carpeta del proyecto
 
 ### 3. Obtener CSV de Spotify
 
@@ -143,11 +139,11 @@ print('✓ ytmusic_legacy.json creado')
 
 ```
 carpeta_scripts/
-├── import_final.py
+├── import_simple.py
 ├── list_playlists.py
 ├── import_as_liked.py
-├── 1.csv                    (tu CSV de Spotify)
-├── ytmusic_legacy.json      (credenciales YouTube Music)
+├── putos_remix.csv          (tu CSV de Spotify)
+├── ytmusic_headers.json     (credenciales YouTube Music)
 └── README.md                (este archivo)
 ```
 
@@ -155,11 +151,23 @@ carpeta_scripts/
 
 ## 🚀 Ejemplos de uso
 
-### Caso 1: Importar a playlist personalizada "spotify"
+### Caso 1: Importar a una playlist por URL
 ```bash
-python import_final.py
+python import_simple.py --csv putos_remix.csv --auth ytmusic_headers.json --playlist-url "https://music.youtube.com/playlist?list=PLwMPz54iutsizG6ssq4kjvLRSYiWuaxhx"
 ```
-→ Crea o reutiliza playlist llamada "spotify"
+→ Añade canciones a esa playlist exacta
+
+### Caso 1B: Importar por ID de playlist
+```bash
+python import_simple.py --csv putos_remix.csv --auth ytmusic_headers.json --playlist-id PLwMPz54iutsizG6ssq4kjvLRSYiWuaxhx
+```
+→ Añade canciones a la playlist indicada por ID
+
+### Caso 1C: Importar por nombre de playlist
+```bash
+python import_simple.py --csv putos_remix.csv --auth ytmusic_headers.json --playlist-name "Putos Remix"
+```
+→ Busca por nombre y la crea si no existe
 
 ### Caso 2: Ver tus playlists actuales
 ```bash
@@ -195,11 +203,11 @@ python import_as_liked.py
 
 ## 🆘 Solución de problemas
 
-### Error: "No se encontró `1.csv`"
+### Error: "No se encontró `ejemplo.csv` o tu CSV"
 → Asegúrate de que el archivo está en la misma carpeta que los scripts
 
-### Error: "No se encontró `ytmusic_legacy.json`"
-→ Ejecuta el paso de configuración inicial para generar el archivo
+### Error: "No se encontró `ytmusic_headers.json`"
+→ Exporta de nuevo headers/cookies y guarda el archivo con ese nombre
 
 ### Error: "ModuleNotFoundError: No module named 'ytmusicapi'"
 → Instala: `python -m pip install ytmusicapi`
@@ -217,7 +225,7 @@ python import_as_liked.py
 - Los scripts son **seguros**: solo leen y modifican tu biblioteca
 - **No borran nada** automáticamente
 - Puedes **ejecutarlos varias veces** sin problemas (crea/reutiliza playlists)
-- Las credenciales (`ytmusic_legacy.json`) **no son privadas en el sentido absoluto** — guárdalo seguro
+- Las credenciales (`ytmusic_headers.json`) **no son privadas en el sentido absoluto** — guárdalo seguro
 
 ---
 
@@ -230,5 +238,5 @@ python import_as_liked.py
 
 ---
 
-**Última actualización:** 22 de enero de 2026
+**Última actualización:** 18 de febrero de 2026
 
