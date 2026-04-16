@@ -1,0 +1,11 @@
+{
+  "headers": {
+    "Accept": "*/*",
+    "Authorization": "SAPISIDHASH YOUR_TIMESTAMP_YOUR_HASH_VALUE",
+    "Content-Type": "application/json",
+    "Cookie": "PREF=tz=YOUR_TIMEZONE; SAPISID=YOUR_SAPISID_VALUE; __Secure-1PAPISID=YOUR_SECURE_1PAPISID_VALUE; __Secure-3PAPISID=YOUR_SECURE_3PAPISID_VALUE",
+    "X-Goog-AuthUser": "0",
+    "x-origin": "https://music.youtube.com"
+  },
+  "cookies": []
+}

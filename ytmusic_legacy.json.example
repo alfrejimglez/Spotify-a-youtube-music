@@ -1,0 +1,9 @@
+{
+  "Accept": "*/*",
+  "Authorization": "SAPISIDHASH YOUR_TIMESTAMP_YOUR_HASH_VALUE",
+  "Content-Type": "application/json",
+  "Cookie": "PREF=tz=YOUR_TIMEZONE; SAPISID=YOUR_SAPISID_VALUE",
+  "User-Agent": "Mozilla/5.0",
+  "X-Goog-AuthUser": "0",
+  "x-origin": "https://music.youtube.com"
+}

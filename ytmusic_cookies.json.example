@@ -1,0 +1,47 @@
+[
+  {
+    "domain": ".youtube.com",
+    "expirationDate": 1803041522.184738,
+    "httpOnly": false,
+    "name": "PREF",
+    "path": "/",
+    "priority": null,
+    "sameParty": false,
+    "sameSite": "unspecified",
+    "secure": true,
+    "session": false,
+    "sourceScheme": null,
+    "storeId": "0",
+    "value": "tz=YOUR_TIMEZONE&f6=40000000&f7=100"
+  },
+  {
+    "domain": ".youtube.com",
+    "expirationDate": 1803199690.649173,
+    "httpOnly": false,
+    "name": "SOCS",
+    "path": "/",
+    "priority": null,
+    "sameParty": false,
+    "sameSite": "lax",
+    "secure": true,
+    "session": false,
+    "sourceScheme": null,
+    "storeId": "0",
+    "value": "YOUR_SOCS_COOKIE_VALUE"
+  },
+  {
+    "domain": ".youtube.com",
+    "expirationDate": 1803631693.322756,
+    "httpOnly": false,
+    "name": "SAPISID",
+    "path": "/",
+    "priority": null,
+    "sameParty": false,
+    "sameSite": "unspecified",
+    "secure": true,
+    "session": false,
+    "sourceScheme": null,
+    "storeId": "0",
+    "value": "YOUR_SAPISID_COOKIE_VALUE"
+  }
+]
